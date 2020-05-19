@@ -8,7 +8,7 @@ import (
 )
 
 // Connection
-type Connection struct {
+type Connection string struct {
 	CTX string
 }
 
