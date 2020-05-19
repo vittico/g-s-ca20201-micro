@@ -10,19 +10,6 @@ import (
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Globers! Bienvenidos a Cloud Academy - G-S-CA20201!")
-	fmt.Println("Endpoint Hit: homePage")
-
-}
-
-func handleRequests() {
-	http.HandleFunc("/", homePage)
-	log.Fatal(http.ListenAndServe(":10000", nil))
-}
-
-func main() {
-
-	log.Println("Inicializando g-s-ca20201-micro...")
 
 	// Environment variables, secrets
 	pgHost, errEnv := os.LookupEnv("PG_HOST")
@@ -50,17 +37,24 @@ func main() {
 		log.Fatal("No pude localizar PG_TLSMode")
 	}
 
-	log.Println("PG Host -> " + pgHost)
-	log.Println("PG Port -> " + pgPort)
-	log.Println("PG User -> " + pgUser)
-	log.Println("PG Password -> " + pgPassword)
-	log.Print("PG DB -> " + pgDB)
-	log.Print("PG TLS Mode -> " + pgTLSMode)
-
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=%s", pgHost, pgPort, pgUser, pgPassword, pgDB, pgTLSMode)
 
-	d := dbhelper.Connection(psqlInfo)
+	d := dbhelper.Connection{CTX: psqlInfo}
 
+	fmt.Fprintf(w, "Globers! Bienvenidos a Cloud Academy - G-S-CA20201!")
+	d.RecordIt()
+	fmt.Println("Endpoint Hit: homePage")
+
+}
+
+func handleRequests() {
+	http.HandleFunc("/", homePage)
+	log.Fatal(http.ListenAndServe(":10000", nil))
+}
+
+func main() {
+
+	log.Println("Inicializando g-s-ca20201-micro...")
 	handleRequests()
 
 }

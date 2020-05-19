@@ -5,10 +5,11 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Connection
-type Connection string struct {
+type Connection struct {
 	CTX string
 }
 
@@ -26,10 +27,10 @@ func (c Connection) RecordIt() {
 	if errDBConn != nil {
 		log.Panic(errDBConn)
 	}
-	log.Println("Asegurandome que la tabla Test tiene la estructura correcta...")
 	db.AutoMigrate(&Contact{})
 
-	contact := Contact{Message: "Restart Contact!", TimeStamp: time.Now().String()}
+	contact := Contact{Message: "Hit!", TimeStamp: time.Now().String()}
 	db.Create(&contact)
+	defer db.Close()
 
 }
