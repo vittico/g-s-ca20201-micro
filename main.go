@@ -53,16 +53,28 @@ func main() {
 	env := &Env{CTX: ctx}
 	/**/
 
+	// endpoint
 	http.HandleFunc("/", env.homePage)
+	http.HandleFunc("/user/details", env.userDetails)
+
 	log.Fatal(http.ListenAndServe(":10000", nil))
 
 }
 
 func (env *Env) homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Globers! Bienvenidos a Cloud Academy - G-S-CA20201! ")
+	fmt.Fprintf(w, "Globers! Bienvenidos a Cloud Academy - G-S-CA20201! - / endpooint ")
 	// Browsers usually hit twice, / endpooint and ico, let's ignore anythiing but the actual endpoint deal?
 	if r.RequestURI == "/" {
 		models.RecordIt(env.CTX)
-		fmt.Println("Endpoint Hit: homePage")
+		log.Println("Endpoint Hit: homePage")
+	}
+}
+
+func (env *Env) userDetails(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Globers! Bienvenidos a Cloud Academy - G-S-CA20201! - /user/details")
+	// Browsers usually hit twice, / endpooint and ico, let's ignore anythiing but the actual endpoint deal?
+	if r.RequestURI == "/" {
+		models.RecordIt(env.CTX)
+		log.Println("Endpoint Hit: userDetails")
 	}
 }
