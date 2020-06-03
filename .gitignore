@@ -15,5 +15,3 @@
 vendor/
 .idea
 g-s-ca20201-micro
-go.mod
-go.sum
