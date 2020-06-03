@@ -1,8 +1,8 @@
-FROM golang:1.13
+FROM golang:1.14
 WORKDIR /go/src/github.com/vittico/g-s-ca20201-micro
 COPY . .
 RUN pwd && ls -lkah
-RUN go mod  init && go mod download && go mod vendor && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build 
+RUN go mod download && go mod vendor && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
 
 FROM alpine:latest
 WORKDIR /opt/gsca20201-micro
